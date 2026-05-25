@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZK Mathematik 2025 – Lernumgebung für Jan</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<style>
+:root {
+  --bg:     #f5f4f0;
+  --bg2:    #ffffff;
+  --bg3:    #eef0f5;
+  --bg4:    #e4e7f0;
+  --accent:  #4f46e5;
+  --accent2: #6d5ce7;
+  --accent3: #0891b2;
+  --gold:    #b45309;
+  --goldbg:  #fef3c7;
+  --green:   #15803d;
+  --greenbg: #dcfce7;
+  --red:     #b91c1c;
+  --redbg:   #fee2e2;
+  --text:    #1e1b2e;
+  --text2:   #4b4869;
+  --text3:   #7c7a9a;
+  --border:  #d1d0e0;
+  --border2: #a5a3c8;
+  --radius:  10px;
+  --radius-lg: 16px;
+  --shadow: 0 2px 8px rgba(79,70,229,0.08);
+  --shadow-lg: 0 4px 20px rgba(79,70,229,0.12);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #4f46e5 0%, #6d5ce7 50%, #0891b2 100%);
+  color: white;
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 100px;
+  padding: 5px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.header h1 {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+.header h1 em { font-style: italic; opacity: 0.9; }
+.header p {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  max-width: 520px;
+  margin: 0 auto 1.5rem;
+}
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+.stat-item { text-align: center; }
+.stat-value {
+  font-size: 2rem; font-weight: 800;
+  display: block; line-height: 1;
+  color: white;
+}
+.stat-value.red  { color: #fca5a5; }
+.stat-value.green{ color: #86efac; }
+.stat-label {
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.1em; opacity: 0.75;
+  display: block; margin-top: 3px;
+}
+
+/* ── TABS ── */
+.nav-tabs {
+  background: var(--bg2);
+  display: flex;
+  border-bottom: 2px solid var(--border);
+  overflow-x: auto;
+  padding: 0 1rem;
+  box-shadow: var(--shadow);
+}
+.nav-tab {
+  padding: 14px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text3);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+  white-space: nowrap;
+  background: none;
+  border-top: none; border-left: none; border-right: none;
+  font-family: 'Nunito', sans-serif;
+}
+.nav-tab:hover { color: var(--text2); }
+.nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.nav-tab.done   { color: var(--green); }
+.tab-badge {
+  display: inline-block;
+  background: #ede9fe;
+  color: var(--accent);
+  border-radius: 100px;
+  padding: 1px 7px; font-size: 10px;
+  margin-left: 5px; font-weight: 800;
+}
+.nav-tab.done .tab-badge { background: var(--greenbg); color: var(--green); }
+
+/* ── MAIN ── */
+.main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+.task-view { display: none; }
+.task-view.active { display: block; }
+
+/* ── TASK HEADER ── */
+.task-header-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 1.8rem;
+  margin-bottom: 1.5rem;
+  border-left: 5px solid var(--accent);
+  box-shadow: var(--shadow);
+}
+.task-number {
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--accent);
+  font-weight: 700; margin-bottom: 0.5rem;
+}
+.task-header-card h2 {
+  font-family: 'Lora', serif;
+  font-size: 1.4rem; color: var(--text);
+  margin-bottom: 0.8rem;
+}
+.task-description { color: var(--text2); font-size: 0.94rem; line-height: 1.8; }
+.math-block {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem 1.1rem;
+  margin: 0.7rem 0;
+  overflow-x: auto;
+}
+.points-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--goldbg);
+  border: 1px solid #fde68a;
+  border-radius: 100px;
+  padding: 4px 12px;
+  font-size: 12px; color: var(--gold); font-weight: 700;
+  margin-top: 0.8rem;
+}
+
+/* ── SUBTASK CARD ── */
+.subtask-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1.2rem;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.subtask-card.locked {
+  opacity: 0.45; pointer-events: none;
+  filter: grayscale(0.3);
+}
+.subtask-card.solved { border-color: #86efac; box-shadow: 0 2px 12px rgba(21,128,61,0.1); }
+.subtask-card.solved .subtask-number {
+  background: var(--greenbg); border-color: #86efac; color: var(--green);
+}
+.subtask-header {
+  padding: 1.1rem 1.4rem;
+  display: flex; align-items: flex-start; gap: 0.9rem;
+  border-bottom: 1px solid var(--bg3);
+}
+.subtask-number {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #ede9fe; border: 1.5px solid #c4b5fd;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: var(--accent);
+  flex-shrink: 0; margin-top: 2px;
+}
+.subtask-text { color: var(--text); font-size: 0.94rem; line-height: 1.75; flex: 1; }
+.subtask-body { padding: 1rem 1.4rem 1.4rem; }
+
+/* ── ANSWER AREA ── */
+.answer-area { margin-bottom: 0.8rem; }
+.answer-area label {
+  display: block; font-size: 12px; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text3);
+  font-weight: 700; margin-bottom: 0.5rem;
+}
+.formula-toolbar {
+  display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 0.6rem;
+}
+.formula-btn {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px; font-size: 13px;
+  color: var(--text2); cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Nunito', sans-serif;
+}
+.formula-btn:hover {
+  background: #ede9fe; border-color: #c4b5fd; color: var(--accent);
+}
+.answer-input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 13px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: 'Nunito', sans-serif;
+  resize: vertical; min-height: 48px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.answer-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,70,229,0.12); }
+.answer-input.correct { border-color: #4ade80; background: #f0fdf4; }
+.answer-input.wrong   { border-color: #f87171; background: #fff5f5; }
+.answer-feedback {
+  margin-top: 0.5rem; font-size: 0.9rem;
+  padding: 9px 13px; border-radius: 8px; display: none;
+  font-weight: 600;
+}
+.answer-feedback.correct-msg {
+  background: var(--greenbg); border: 1px solid #86efac;
+  color: var(--green); display: block;
+}
+.answer-feedback.wrong-msg {
+  background: var(--redbg); border: 1px solid #fca5a5;
+  color: var(--red); display: block;
+}
+.answer-feedback.partial-msg {
+  background: var(--goldbg); border: 1px solid #fde68a;
+  color: var(--gold); display: block;
+}
+
+/* ── MULTIPLE CHOICE (graphs) ── */
+.mc-container { margin: 0.5rem 0 1rem; }
+.mc-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); font-weight: 700; margin-bottom: 0.8rem; }
+.mc-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.mc-option {
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.6rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--bg3);
+  text-align: center;
+}
+.mc-option:hover { border-color: var(--accent2); background: #ede9fe; }
+.mc-option.selected { border-color: var(--accent); background: #ede9fe; }
+.mc-option.correct-choice { border-color: #4ade80 !important; background: var(--greenbg) !important; }
+.mc-option.wrong-choice   { border-color: #f87171 !important; background: var(--redbg) !important; }
+.mc-option svg { width: 100%; height: auto; display: block; }
+.mc-option-label {
+  font-size: 13px; font-weight: 700; margin-top: 0.4rem;
+  color: var(--text2);
+}
+.mc-option.selected .mc-option-label { color: var(--accent); }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: 100px;
+  font-size: 13.5px; font-weight: 700; cursor: pointer;
+  transition: all 0.2s; border: 2px solid transparent;
+  font-family: 'Nunito', sans-serif;
+}
+.btn-primary {
+  background: var(--accent); color: white; border-color: var(--accent);
+}
+.btn-primary:hover { background: #4338ca; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
+.btn-secondary {
+  background: var(--bg3); color: var(--text2); border-color: var(--border);
+}
+.btn-secondary:hover { border-color: var(--accent2); color: var(--accent); }
+.btn-hint {
+  background: var(--goldbg); color: var(--gold); border-color: #fde68a;
+}
+.btn-hint:hover { background: #fef9c3; }
+.btn-next {
+  background: var(--green); color: white; border-color: var(--green);
+  font-weight: 800;
+}
+.btn-next:hover { background: #16a34a; transform: translateY(-1px); }
+.btn-row {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem;
+}
+
+/* ── HINT SYSTEM ── */
+.hint-step-container { margin-top: 0.8rem; }
+.hint-step-btn {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; text-align: left;
+  background: var(--goldbg);
+  border: 1.5px solid #fde68a;
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 13px; font-weight: 700;
+  color: var(--gold); cursor: pointer;
+  transition: all 0.2s; margin-bottom: 6px;
+  font-family: 'Nunito', sans-serif;
+}
+.hint-step-btn:hover { background: #fef9c3; }
+.hint-step-btn .step-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #fde68a; color: var(--gold);
+  font-size: 11px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.hint-step-content {
+  background: #fffbeb;
+  border: 1.5px solid #fde68a;
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.75;
+  animation: slideDown 0.25s ease;
+  display: none;
+}
+.hint-step-content.visible { display: block; }
+.hint-step-content .math-block {
+  background: white; border-color: #fde68a;
+}
+.hint-question {
+  font-style: italic; color: var(--accent); font-weight: 600;
+  margin-bottom: 0.4rem; font-size: 0.92rem;
+}
+.hint-panel {
+  background: #fffbeb;
+  border: 1.5px solid #fde68a;
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin-top: 0.8rem;
+  display: none;
+}
+.hint-panel.visible { display: block; }
+.hint-title {
+  font-size: 12px; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--gold);
+  font-weight: 800; margin-bottom: 0.6rem;
+}
+.hint-content { color: var(--text); font-size: 0.9rem; line-height: 1.75; }
+.hint-follow-up { margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid #fde68a; }
+.hint-follow-label { font-size: 13px; color: var(--text2); margin-bottom: 0.5rem; font-weight: 600; }
+
+/* ── SOLUTION ── */
+.solution-panel {
+  background: var(--greenbg);
+  border: 1.5px solid #86efac;
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin-top: 0.8rem;
+  display: none;
+}
+.solution-panel.visible { display: block; }
+.solution-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green); font-weight: 800; margin-bottom: 0.6rem; }
+.solution-step {
+  display: flex; gap: 10px; margin: 0.5rem 0; align-items: flex-start;
+}
+.solution-step-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #bbf7d0; color: var(--green);
+  font-size: 11px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.solution-step-text { color: var(--text); line-height: 1.75; flex: 1; font-size: 0.9rem; }
+.solution-step-text .math-block { background: white; border-color: #86efac; }
+
+/* ── GRAPH SVG ── */
+.graph-wrap {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden; margin: 0.8rem 0;
+}
+.g-axis { stroke: #374151; stroke-width: 1.5; }
+.g-grid { stroke: #e5e7eb; stroke-width: 0.5; }
+.g-tick { stroke: #6b7280; stroke-width: 1; }
+.g-curve-f   { fill: none; stroke: #4f46e5; stroke-width: 2.5; }
+.g-curve-fp  { fill: none; stroke: #0891b2; stroke-width: 2; stroke-dasharray: 6,3; }
+.g-label     { fill: #374151; font-size: 11px; font-family: 'Nunito', sans-serif; }
+.g-label-f   { fill: #4f46e5; font-size: 12px; font-family: 'Lora', serif; font-style: italic; }
+.g-label-fp  { fill: #0891b2; font-size: 12px; font-family: 'Lora', serif; font-style: italic; }
+
+/* ── PROGRESS ── */
+.progress-bar-wrap { background: var(--bg4); border-radius: 100px; height: 6px; overflow: hidden; margin-top: 0.6rem; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent3)); border-radius: 100px; transition: width 0.5s ease; }
+.progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text3); }
+.progress-label span:last-child { color: var(--accent); font-weight: 700; }
+
+/* ── MISC ── */
+.divider { height: 1px; background: var(--border); margin: 1.2rem 0; }
+.locked-note {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 8px; padding: 9px 13px;
+  font-size: 13px; color: var(--text3); font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+.completion-screen { display: none; text-align: center; padding: 4rem 2rem; }
+.completion-screen.visible { display: block; }
+.completion-icon { font-size: 5rem; margin-bottom: 1.5rem; }
+.completion-screen h2 { font-family: 'Lora', serif; font-size: 2rem; margin-bottom: 1rem; color: var(--text); }
+.completion-screen p { color: var(--text2); max-width: 480px; margin: 0 auto 1.5rem; line-height: 1.7; }
+.vector-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 0.5rem 0; }
+.vector-table td { padding: 4px 8px; border: 1px solid var(--border); text-align: center; }
+.vector-table td:first-child { background: var(--bg3); font-weight: 700; color: var(--text2); text-align: left; }
+
+@keyframes slideDown { from { opacity:0; transform: translateY(-8px); } to { opacity:1; transform: none; } }
+@keyframes fadeIn   { from { opacity:0; transform: translateY(6px); }  to { opacity:1; transform: none; } }
+.fade-in { animation: fadeIn 0.35s ease; }
+
+.katex { font-size: 1.05em !important; }
+.katex-display { margin: 0.3em 0 !important; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<div class="header">
+  <div class="header-badge">ZK Mathematik · Einführungsphase 2025</div>
+  <h1>Auf geht's, <em>Jan!</em> Du schaffst das! 💪</h1>
+  <p>Bearbeite die Aufgaben Schritt für Schritt. Jede Teilaufgabe wird erst freigeschaltet, wenn die vorherige richtig gelöst ist. Nutze die Hinweise – sie leiten dich schrittweise zur Lösung.</p>
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-value" id="total-points">0</span>
+      <span class="stat-label">Punkte</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value red" id="error-count">0</span>
+      <span class="stat-label">Fehler</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value green" id="solved-count">0</span>
+      <span class="stat-label">Gelöst</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TABS ═══════════════ -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showTask(0)" id="tab-0">Aufgabe 1 <span class="tab-badge" id="badge-0">6 P</span></button>
+  <button class="nav-tab" onclick="showTask(1)" id="tab-1">Aufgabe 2 <span class="tab-badge" id="badge-1">6 P</span></button>
+  <button class="nav-tab" onclick="showTask(2)" id="tab-2">Aufgabe 3 <span class="tab-badge" id="badge-2">18 P</span></button>
+  <button class="nav-tab" onclick="showTask(3)" id="tab-3">Aufgabe 4 <span class="tab-badge" id="badge-3">18 P</span></button>
+</div>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<div class="main">
+
+<!-- ════════════════════════════════════════
+     AUFGABE 1
+════════════════════════════════════════ -->
+<div class="task-view active" id="task-0">
+
+  <div class="task-header-card">
+    <div class="task-number">Prüfungsteil A · Ohne Hilfsmittel</div>
+    <h2>Aufgabe 1 – Funktionsanalyse</h2>
+    <div class="task-description">
+      Gegeben ist die in ℝ definierte Funktion <em>f</em> mit
+      <div class="math-block" id="f1-def"></div>
+    </div>
+    <span class="points-badge">⭐ 6 Punkte (4 + 2)</span>
+  </div>
+
+  <!-- ── Subtask 1.1 ── -->
+  <div class="subtask-card" id="st-1-1">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-1-1">1</div>
+      <div class="subtask-text">
+        <strong>(1)</strong> Berechnen Sie die Stellen, an denen der Graph von <em>f</em> die Steigung 0 besitzt.
+        <br><small style="color:var(--text3)">Hinweis: Es werden <strong>zwei</strong> Stellen erwartet.</small>
+      </div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Deine Antwort (beide Stellen angeben):</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('1-1','x₁ = ')">x₁ =</button>
+          <button class="formula-btn" onclick="fi('1-1','  und  x₂ = ')">und x₂ =</button>
+          <button class="formula-btn" onclick="fi('1-1','f\'(x) = ')">f'(x) =</button>
+          <button class="formula-btn" onclick="fi('1-1','√')">√</button>
+          <button class="formula-btn" onclick="fi('1-1','²')">²</button>
+        </div>
+        <textarea class="answer-input" id="ans-1-1" placeholder="Beispiel: x₁ = 2  und  x₂ = 4" oninput="clearFB('1-1')"></textarea>
+        <div class="answer-feedback" id="fb-1-1"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('1-1')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('1-1')">💡 Hinweis anzeigen</button>
+      </div>
+
+      <!-- Hint system 1-1 -->
+      <div class="hint-panel" id="hpanel-1-1">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content">
+          <p class="hint-question">Was bedeutet „Steigung 0" an einem Punkt des Graphen?</p>
+          <p>An Stellen mit Steigung 0 verläuft die Tangente waagerecht – das passiert an lokalen Hoch- und Tiefpunkten. Die Steigung des Graphen wird durch die <strong>Ableitung f'(x)</strong> beschrieben.</p>
+        </div>
+        <div class="hint-step-container" id="hsteps-1-1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Subtask 1.2 (MC Graph) ── -->
+  <div class="subtask-card locked" id="st-1-2">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-1-2">2</div>
+      <div class="subtask-text">
+        <strong>(2)</strong> Die Abbildung zeigt den Graphen der Ableitungsfunktion f' (blaue gestrichelte Kurve).<br>
+        Skizzieren Sie den Graphen der Funktion f in der Abbildung.<br>
+        <em style="color:var(--text3); font-size:0.88rem">Da Jan den Graphen hier nicht einzeichnen kann: Welche der folgenden Skizzen zeigt den korrekten Graphen von f?</em>
+      </div>
+    </div>
+    <div class="subtask-body">
+      <!-- Show f' graph for reference -->
+      <div class="graph-wrap">
+        <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+          <g id="ref-grid"></g>
+          <line x1="30" y1="100" x2="490" y2="100" class="g-axis" marker-end="url(#ah1)"/>
+          <line x1="250" y1="190" x2="250" y2="10" class="g-axis" marker-end="url(#ah1)"/>
+          <defs><marker id="ah1" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto"><polygon points="0 0,6 2,0 4" fill="#374151"/></marker></defs>
+          <text x="486" y="104" class="g-label">x</text>
+          <text x="254" y="14" class="g-label-fp">f'(x)</text>
+          <path id="fp-ref" class="g-curve-fp"/>
+          <!-- tick labels -->
+          <text x="286" y="113" class="g-label">2</text>
+          <text x="366" y="113" class="g-label">4</text>
+          <text x="206" y="113" class="g-label">0</text>
+          <text x="165" y="113" class="g-label">-1</text>
+        </svg>
+      </div>
+      <p style="font-size:0.85rem;color:var(--text3);margin-bottom:0.8rem">↑ Graph der Ableitung f'(x) – nutze ihn, um zu entscheiden, wo f steigt, fällt und Extremstellen hat.</p>
+
+      <div class="mc-container">
+        <div class="mc-label">Welcher Graph zeigt die richtige Funktion f?</div>
+        <div class="mc-options">
+          <!-- Option A: Wrong – monotone increasing -->
+          <div class="mc-option" id="mc-1-2-A" onclick="selectMC('1-2','A')">
+            <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+              <g id="mc-grid-A"></g>
+              <line x1="10" y1="80" x2="195" y2="80" class="g-axis"/>
+              <line x1="100" y1="155" x2="100" y2="5" class="g-axis"/>
+              <path d="M 20,130 Q 60,110 100,80 Q 140,50 180,20" class="g-curve-f"/>
+              <text x="155" y="20" class="g-label-f" style="font-size:10px">f</text>
+            </svg>
+            <div class="mc-option-label">Graph A</div>
+          </div>
+          <!-- Option B: Correct – local max at x=2, local min at x=4 -->
+          <div class="mc-option" id="mc-1-2-B" onclick="selectMC('1-2','B')">
+            <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+              <line x1="10" y1="80" x2="195" y2="80" class="g-axis"/>
+              <line x1="100" y1="155" x2="100" y2="5" class="g-axis"/>
+              <path d="M 20,140 C 50,130 70,40 100,50 C 120,56 130,110 150,115 C 165,118 175,80 185,30" class="g-curve-f"/>
+              <text x="155" y="35" class="g-label-f" style="font-size:10px">f</text>
+            </svg>
+            <div class="mc-option-label">Graph B</div>
+          </div>
+          <!-- Option C: Wrong – local min then max reversed -->
+          <div class="mc-option" id="mc-1-2-C" onclick="selectMC('1-2','C')">
+            <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+              <line x1="10" y1="80" x2="195" y2="80" class="g-axis"/>
+              <line x1="100" y1="155" x2="100" y2="5" class="g-axis"/>
+              <path d="M 20,30 C 50,40 70,120 100,110 C 120,104 130,50 150,45 C 165,42 175,80 185,140" class="g-curve-f"/>
+              <text x="155" y="150" class="g-label-f" style="font-size:10px">f</text>
+            </svg>
+            <div class="mc-option-label">Graph C</div>
+          </div>
+          <!-- Option D: Wrong – no extrema visible, straight-ish -->
+          <div class="mc-option" id="mc-1-2-D" onclick="selectMC('1-2','D')">
+            <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+              <line x1="10" y1="80" x2="195" y2="80" class="g-axis"/>
+              <line x1="100" y1="155" x2="100" y2="5" class="g-axis"/>
+              <path d="M 20,150 C 60,140 80,90 100,80 C 120,70 140,70 160,65 C 170,62 178,60 185,30" class="g-curve-f"/>
+              <text x="155" y="35" class="g-label-f" style="font-size:10px">f</text>
+            </svg>
+            <div class="mc-option-label">Graph D</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="answer-feedback" id="fb-1-2"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkMC('1-2','B',4)">✓ Auswahl prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('1-2')">💡 Hinweis anzeigen</button>
+      </div>
+
+      <div class="hint-panel" id="hpanel-1-2">
+        <div class="hint-title">💡 So liest du f aus f' ab</div>
+        <div class="hint-content">
+          <p class="hint-question">Was sagt f'(x) über den Verlauf von f aus?</p>
+        </div>
+        <div class="hint-step-container" id="hsteps-1-2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     AUFGABE 2
+════════════════════════════════════════ -->
+<div class="task-view" id="task-1">
+  <div class="task-header-card">
+    <div class="task-number">Prüfungsteil A · Ohne Hilfsmittel</div>
+    <h2>Aufgabe 2 – Vektoren im Raum</h2>
+    <div class="task-description">
+      Betrachtet werden die Punkte <span id="a2-pts"></span> sowie die Punkte <em>D</em> und <em>M</em>.
+      <div class="graph-wrap" style="margin-top:1rem">
+        <svg viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+          <line x1="70" y1="90" x2="430" y2="90" stroke="#374151" stroke-width="1.5"/>
+          <circle cx="70"  cy="90"  r="5" fill="#4f46e5"/>
+          <text x="55" y="82" class="g-label" style="fill:#4f46e5;font-weight:700">A</text>
+          <circle cx="250" cy="90"  r="5" fill="#b45309"/>
+          <text x="254" y="80" class="g-label" style="fill:#b45309;font-weight:700">M</text>
+          <circle cx="430" cy="90"  r="5" fill="#4f46e5"/>
+          <text x="434" y="82" class="g-label" style="fill:#4f46e5;font-weight:700">C</text>
+          <circle cx="360" cy="155" r="5" fill="#0891b2"/>
+          <text x="364" y="158" class="g-label" style="fill:#0891b2;font-weight:700">B</text>
+          <!-- D shown after solve -->
+          <circle cx="140" cy="25" r="5" fill="#b45309" id="d-dot" style="display:none"/>
+          <text x="144" y="22" class="g-label" style="fill:#b45309;font-weight:700;display:none" id="d-label">D</text>
+          <line x1="360" y1="155" x2="140" y2="25" stroke="#b45309" stroke-width="1" stroke-dasharray="5,3" id="d-line" style="display:none"/>
+        </svg>
+      </div>
+      <p style="font-size:0.83rem;color:var(--text3);margin-top:0.3rem">Schematische Darstellung (nur 2D-Projektion)</p>
+    </div>
+    <span class="points-badge">⭐ 6 Punkte (2 + 1 + 3)</span>
+  </div>
+
+  <!-- Subtask 2.1 -->
+  <div class="subtask-card" id="st-2-1">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-2-1">1</div>
+      <div class="subtask-text">
+        <strong>(1)</strong> Geben Sie die Koordinaten des Vektors <span id="a2-acv"></span> an und berechnen Sie seine Länge.
+        <br><small style="color:var(--text3)">Hinweis: Gib sowohl den Vektor als auch die berechnete Länge an.</small>
+      </div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Vektor und Betrag:</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('2-1','AC⃗ = (  |  |  )')">AC⃗ = (||)</button>
+          <button class="formula-btn" onclick="fi('2-1','  |AC⃗| = ')">|AC⃗| =</button>
+          <button class="formula-btn" onclick="fi('2-1','√(')">√(</button>
+          <button class="formula-btn" onclick="fi('2-1','²')">²</button>
+          <button class="formula-btn" onclick="fi('2-1',' + ')">+</button>
+        </div>
+        <textarea class="answer-input" id="ans-2-1" placeholder="AC⃗ = (0 | -6 | 8)    |AC⃗| = √(0² + (-6)² + 8²) = 10" oninput="clearFB('2-1')"></textarea>
+        <div class="answer-feedback" id="fb-2-1"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('2-1')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('2-1')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-2-1">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content">
+          <p class="hint-question">Wie berechnet man einen Verbindungsvektor?</p>
+          <p>Der Vektor vom Punkt P zum Punkt Q lautet: <strong>PQ⃗ = Q − P</strong> (Koordinate für Koordinate subtrahieren)</p>
+        </div>
+        <div class="hint-step-container" id="hsteps-2-1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subtask 2.2 -->
+  <div class="subtask-card locked" id="st-2-2">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-2-2">2</div>
+      <div class="subtask-text">
+        <strong>(2)</strong> M ist der Mittelpunkt der Strecke <span id="a2-acs"></span>. Geben Sie die Koordinaten von M an.
+      </div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Koordinaten von M:</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('2-2','M(  |  |  )')">M( | | )</button>
+          <button class="formula-btn" onclick="fi('2-2','½ · (A + C) = ')">½·(A+C)</button>
+        </div>
+        <textarea class="answer-input" id="ans-2-2" placeholder="M(1 | 1 | 1)" oninput="clearFB('2-2')"></textarea>
+        <div class="answer-feedback" id="fb-2-2"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('2-2')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('2-2')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-2-2">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content">
+          <p class="hint-question">Wie findet man den Mittelpunkt einer Strecke?</p>
+          <p>Den Mittelpunkt erhält man durch Bildung des <strong>arithmetischen Mittels</strong> der Koordinaten beider Endpunkte.</p>
+        </div>
+        <div class="hint-step-container" id="hsteps-2-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subtask 2.3 -->
+  <div class="subtask-card locked" id="st-2-3">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-2-3">3</div>
+      <div class="subtask-text">
+        <strong>(3)</strong> M ist auch der Mittelpunkt der Strecke <span id="a2-bds"></span>. Berechnen Sie die Koordinaten von D.
+      </div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Koordinaten von D:</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('2-3','D(  |  |  )')">D( | | )</button>
+          <button class="formula-btn" onclick="fi('2-3','OD⃗ = OM⃗ + BM⃗')">OD⃗ = OM⃗ + BM⃗</button>
+          <button class="formula-btn" onclick="fi('2-3','D = 2M − B = ')">D = 2M − B</button>
+        </div>
+        <textarea class="answer-input" id="ans-2-3" placeholder="D(2 | -6 | 5)" oninput="clearFB('2-3')"></textarea>
+        <div class="answer-feedback" id="fb-2-3"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('2-3')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('2-3')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-2-3">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content">
+          <p class="hint-question">M ist Mittelpunkt von BD – wie liegt D im Verhältnis zu M und B?</p>
+          <p>D liegt M gegenüber: von B aus über M genau so weit weiter.</p>
+        </div>
+        <div class="hint-step-container" id="hsteps-2-3"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     AUFGABE 3
+════════════════════════════════════════ -->
+<div class="task-view" id="task-2">
+  <div class="task-header-card">
+    <div class="task-number">Prüfungsteil B · Mit Hilfsmitteln (CAS/WTR)</div>
+    <h2>Aufgabe 3 – Ganzrationale Funktion</h2>
+    <div class="task-description">
+      Gegeben ist die ganzrationale Funktion <em>f</em> mit
+      <div class="math-block" id="f3-def"></div>
+    </div>
+    <span class="points-badge">⭐ 18 Punkte</span>
+  </div>
+
+  <!-- 3-a1 -->
+  <div class="subtask-card" id="st-3-a1">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-3-a1">a1</div>
+      <div class="subtask-text"><strong>a)(1)</strong> Begründen Sie mit Hilfe des Funktionsterms, dass der Graph von f weder achsensymmetrisch zur y-Achse noch punktsymmetrisch zum Ursprung ist.</div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Deine Begründung:</label>
+        <textarea class="answer-input" id="ans-3-a1" placeholder="Im Funktionsterm treten sowohl gerade als auch ungerade Exponenten auf..." oninput="clearFB('3-a1')" style="min-height:72px"></textarea>
+        <div class="answer-feedback" id="fb-3-a1"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('3-a1')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('3-a1')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-3-a1">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Wann ist eine Funktion achsensymmetrisch, wann punktsymmetrisch?</p></div>
+        <div class="hint-step-container" id="hsteps-3-a1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-a2 -->
+  <div class="subtask-card locked" id="st-3-a2">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-3-a2">a2</div>
+      <div class="subtask-text"><strong>a)(2)</strong> Geben Sie <span id="f3-lim"></span> an.</div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Grenzwert:</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('3-a2','+∞')">+∞</button>
+          <button class="formula-btn" onclick="fi('3-a2','-∞')">−∞</button>
+        </div>
+        <textarea class="answer-input" id="ans-3-a2" placeholder="-∞" oninput="clearFB('3-a2')"></textarea>
+        <div class="answer-feedback" id="fb-3-a2"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('3-a2')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('3-a2')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-3-a2">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Welcher Term bestimmt das Verhalten für x → +∞?</p></div>
+        <div class="hint-step-container" id="hsteps-3-a2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-a3 -->
+  <div class="subtask-card locked" id="st-3-a3">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-3-a3">a3</div>
+      <div class="subtask-text"><strong>a)(3)</strong> Berechnen Sie die Koordinaten der lokalen Extrempunkte und die Art der lokalen Extrempunkte des Graphen von f.<br><small style="color:var(--text3)">Gib alle Extrempunkte mit Koordinaten und Art (Hoch-/Tiefpunkt) an.</small></div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Extrempunkte:</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('3-a3','f\'(x) = ')">f'(x) =</button>
+          <button class="formula-btn" onclick="fi('3-a3','f\'\'(x) = ')">f''(x) =</button>
+          <button class="formula-btn" onclick="fi('3-a3','T(  |  )')">T(|)</button>
+          <button class="formula-btn" onclick="fi('3-a3','H(  |  )')">H(|)</button>
+          <button class="formula-btn" onclick="fi('3-a3','≈')">≈</button>
+        </div>
+        <textarea class="answer-input" id="ans-3-a3" placeholder="Tiefpunkt T(0 | 0) und Hochpunkt H(10/3 | 80/27) ≈ H(3,33 | 2,96)" oninput="clearFB('3-a3')" style="min-height:80px"></textarea>
+        <div class="answer-feedback" id="fb-3-a3"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('3-a3')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('3-a3')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-3-a3">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Welche drei Schritte brauchst du für Extrempunkte?</p></div>
+        <div class="hint-step-container" id="hsteps-3-a3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-a4 -->
+  <div class="subtask-card locked" id="st-3-a4">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-3-a4">a4</div>
+      <div class="subtask-text"><strong>a)(4)</strong> Ermitteln Sie die Koordinaten des Wendepunktes des Graphen von f.</div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Wendepunkt:</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('3-a4','f\'\'(x) = ')">f''(x) =</button>
+          <button class="formula-btn" onclick="fi('3-a4','W(  |  )')">W(|)</button>
+          <button class="formula-btn" onclick="fi('3-a4','≈')">≈</button>
+        </div>
+        <textarea class="answer-input" id="ans-3-a4" placeholder="f''(x) = 0 → xw = 5/3 ≈ 1,67 → W(5/3 | ...) ≈ W(1,67 | 1,48)" oninput="clearFB('3-a4')"></textarea>
+        <div class="answer-feedback" id="fb-3-a4"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('3-a4')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('3-a4')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-3-a4">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Was ist die Bedingung für einen Wendepunkt?</p></div>
+        <div class="hint-step-container" id="hsteps-3-a4"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-b1 -->
+  <div class="subtask-card locked" id="st-3-b1">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-3-b1">b1</div>
+      <div class="subtask-text">
+        <strong>b)(1)(i)</strong> Bei der Lösung einer Aufgabe wurden folgende Berechnungen dokumentiert:
+        <div class="math-block" id="b1-calc"></div>
+        Geben Sie eine passende Aufgabenstellung an.
+      </div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Passende Aufgabenstellung:</label>
+        <textarea class="answer-input" id="ans-3-b1" placeholder="Berechnen Sie die Stellen, an denen der Graph von f und die Tangente an den Graphen von f im Punkt (1 | f(1)) gemeinsame Punkte besitzen." oninput="clearFB('3-b1')" style="min-height:72px"></textarea>
+        <div class="answer-feedback" id="fb-3-b1"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('3-b1')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('3-b1')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-3-b1">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Was wird in den Berechnungsschritten jeweils bestimmt?</p></div>
+        <div class="hint-step-container" id="hsteps-3-b1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-b1ii -->
+  <div class="subtask-card locked" id="st-3-b1ii">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-3-b1ii">b1ii</div>
+      <div class="subtask-text"><strong>b)(1)(ii)</strong> Erläutern Sie den dargestellten Lösungsweg vollständig.</div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Erläuterung:</label>
+        <textarea class="answer-input" id="ans-3-b1ii" placeholder="t(x) ist eine lineare Funktion (Gerade). Die Steigung m wird als Ableitung von f an der Stelle 1 bestimmt. Dann wird b aus der Bedingung t(1) = f(1) berechnet. Durch Gleichsetzen t(x) = f(x) findet man die gemeinsamen Punkte." oninput="clearFB('3-b1ii')" style="min-height:90px"></textarea>
+        <div class="answer-feedback" id="fb-3-b1ii"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('3-b1ii')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('3-b1ii')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-3-b1ii">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Erkläre jede Zeile der Dokumentation:</p></div>
+        <div class="hint-step-container" id="hsteps-3-b1ii"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-b2 -->
+  <div class="subtask-card locked" id="st-3-b2">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-3-b2">b2</div>
+      <div class="subtask-text"><strong>b)(2)</strong> Berechnen Sie den Steigungswinkel α der Gerade t mit t(x) = 1,12x − 0,48.</div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Steigungswinkel α:</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('3-b2','α = arctan(m) = ')">α = arctan(m)</button>
+          <button class="formula-btn" onclick="fi('3-b2','°')">°</button>
+          <button class="formula-btn" onclick="fi('3-b2','≈')">≈</button>
+        </div>
+        <textarea class="answer-input" id="ans-3-b2" placeholder="α = arctan(1,12) ≈ 48,24°" oninput="clearFB('3-b2')"></textarea>
+        <div class="answer-feedback" id="fb-3-b2"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('3-b2')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('3-b2')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-3-b2">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Wie hängen Steigung und Winkel zusammen?</p></div>
+        <div class="hint-step-container" id="hsteps-3-b2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     AUFGABE 4
+════════════════════════════════════════ -->
+<div class="task-view" id="task-3">
+  <div class="task-header-card">
+    <div class="task-number">Prüfungsteil B · Mit Hilfsmitteln (CAS/WTR)</div>
+    <h2>Aufgabe 4 – St. Michaels Mount</h2>
+    <div class="task-description">
+      <p>St. Michaels Mount ist eine Insel an der Küste vor Cornwall (Großbritannien). Der Wasserstand zwischen 7:00 und 19:00 Uhr wird modelliert durch:</p>
+      <div class="math-block" id="f4-def"></div>
+      <p style="margin-top:0.5rem">Dabei ist <em>t</em> die Uhrzeit in Stunden und <em>f(t)</em> der Wasserstand in Metern. Zum Beispiel beschreibt f(8) den Wasserstand um 8:00 Uhr.</p>
+    </div>
+    <span class="points-badge">⭐ 18 Punkte</span>
+  </div>
+
+  <!-- 4a -->
+  <div class="subtask-card" id="st-4-a">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-4-a">a</div>
+      <div class="subtask-text"><strong>a)</strong> Berechnen Sie den Wasserstand um 14:30 Uhr.</div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Wasserstand (mit Einheit):</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('4-a','f(14,5) = ')">f(14,5) =</button>
+          <button class="formula-btn" onclick="fi('4-a','≈')">≈</button>
+          <button class="formula-btn" onclick="fi('4-a',' m')">m</button>
+        </div>
+        <textarea class="answer-input" id="ans-4-a" placeholder="f(14,5) ≈ 1,91 m" oninput="clearFB('4-a')"></textarea>
+        <div class="answer-feedback" id="fb-4-a"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('4-a')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('4-a')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-4-a">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Wie wird 14:30 Uhr als Zahl für t dargestellt?</p></div>
+        <div class="hint-step-container" id="hsteps-4-a"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4b -->
+  <div class="subtask-card locked" id="st-4-b">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-4-b">b</div>
+      <div class="subtask-text"><strong>b)</strong> Die Insel kann über einen Weg erreicht werden, der bei Wasserständen unter 2 m begehbar ist. Ermitteln Sie die Länge des Zeitraums, in dem die Insel zu Fuß erreicht werden kann.</div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Zeitraum und Länge:</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('4-b','f(t) = 2 → t₁ = ')">f(t)=2 →</button>
+          <button class="formula-btn" onclick="fi('4-b','≈')">≈</button>
+          <button class="formula-btn" onclick="fi('4-b',' h')">h</button>
+          <button class="formula-btn" onclick="fi('4-b',' Uhr')">Uhr</button>
+        </div>
+        <textarea class="answer-input" id="ans-4-b" placeholder="f(t) = 2 bei t₁ ≈ 10,56 und t₂ ≈ 14,61 → Dauer ≈ 4,05 h ≈ 4 Stunden" oninput="clearFB('4-b')"></textarea>
+        <div class="answer-feedback" id="fb-4-b"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('4-b')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('4-b')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-4-b">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Wann gilt f(t) &lt; 2 – wie findest du das heraus?</p></div>
+        <div class="hint-step-container" id="hsteps-4-b"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4c -->
+  <div class="subtask-card locked" id="st-4-c">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-4-c">c</div>
+      <div class="subtask-text">
+        <strong>c)</strong> Es gilt: <span id="f4c-form"></span>. Interpretieren Sie den Wert 0,81 im Sachzusammenhang.
+      </div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Sachliche Interpretation:</label>
+        <textarea class="answer-input" id="ans-4-c" placeholder="Im Zeitraum von 13:00 bis 18:00 Uhr steigt der Wasserstand im Durchschnitt um 0,81 m pro Stunde." oninput="clearFB('4-c')" style="min-height:64px"></textarea>
+        <div class="answer-feedback" id="fb-4-c"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('4-c')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('4-c')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-4-c">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Was beschreibt ein solcher Quotient allgemein?</p></div>
+        <div class="hint-step-container" id="hsteps-4-c"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4d -->
+  <div class="subtask-card locked" id="st-4-d">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-4-d">d</div>
+      <div class="subtask-text"><strong>d)(1)+(2)</strong> Ermitteln Sie die Zeitpunkte des niedrigsten und höchsten Wasserstands und berechnen Sie deren Differenz.</div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Extremstellen und Differenz:</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('4-d','f\'(t) = 0 → ')">f'(t)=0</button>
+          <button class="formula-btn" onclick="fi('4-d','≈')">≈</button>
+          <button class="formula-btn" onclick="fi('4-d',' Uhr')">Uhr</button>
+          <button class="formula-btn" onclick="fi('4-d',' m')">m</button>
+        </div>
+        <textarea class="answer-input" id="ans-4-d" placeholder="Niedrigster Stand ca. 12:36 Uhr (≈1,13 m), höchster Stand ca. 18:48 Uhr (≈5,47 m), Differenz ≈ 4,34 m" oninput="clearFB('4-d')" style="min-height:72px"></textarea>
+        <div class="answer-feedback" id="fb-4-d"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('4-d')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('4-d')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-4-d">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Wie findest du das globale Maximum und Minimum im Intervall [7;19]?</p></div>
+        <div class="hint-step-container" id="hsteps-4-d"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4e -->
+  <div class="subtask-card locked" id="st-4-e">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-4-e">e</div>
+      <div class="subtask-text"><strong>e)</strong> Ermitteln Sie rechnerisch den Zeitpunkt, zu dem das Wasser am schnellsten steigt.</div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Zeitpunkt des schnellsten Anstiegs:</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('4-e','f\'\'(t) = ')">f''(t) =</button>
+          <button class="formula-btn" onclick="fi('4-e','≈')">≈</button>
+          <button class="formula-btn" onclick="fi('4-e',' Uhr')">Uhr</button>
+        </div>
+        <textarea class="answer-input" id="ans-4-e" placeholder="Maximum von f'(t) bestimmen: f''(t)=0 → t≈16,18; Vergleich: f'(16,18)≈1,07 ist Maximum → schnellster Anstieg ca. 16:11 Uhr" oninput="clearFB('4-e')" style="min-height:72px"></textarea>
+        <div class="answer-feedback" id="fb-4-e"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('4-e')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('4-e')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-4-e">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Was bedeutet „Wasser steigt am schnellsten" mathematisch?</p></div>
+        <div class="hint-step-container" id="hsteps-4-e"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4f -->
+  <div class="subtask-card locked" id="st-4-f">
+    <div class="subtask-header">
+      <div class="subtask-number" id="sn-4-f">f</div>
+      <div class="subtask-text">
+        <strong>f)</strong> An einem anderen Tag liegt um 10:00 Uhr ein Wasserstand von 3,8 m vor. Der Wasserstand soll durch <span id="f4f-def"></span> modelliert werden. Berechnen Sie den passenden Wert für <em>a</em>.
+      </div>
+    </div>
+    <div class="subtask-body">
+      <div class="answer-area">
+        <label>Wert für a:</label>
+        <div class="formula-toolbar">
+          <button class="formula-btn" onclick="fi('4-f','g(10) = f(10-a) = 3,8')">g(10)=3,8</button>
+          <button class="formula-btn" onclick="fi('4-f','a ≈ ')">a ≈</button>
+        </div>
+        <textarea class="answer-input" id="ans-4-f" placeholder="g(10) = f(10-a) = 3,8 → a ≈ 1,25" oninput="clearFB('4-f')"></textarea>
+        <div class="answer-feedback" id="fb-4-f"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkAnswer('4-f')">✓ Prüfen</button>
+        <button class="btn btn-hint" onclick="toggleHintSystem('4-f')">💡 Hinweis</button>
+      </div>
+      <div class="hint-panel" id="hpanel-4-f">
+        <div class="hint-title">💡 Schritt-für-Schritt-Hilfe</div>
+        <div class="hint-content"><p class="hint-question">Was bedeutet g(t) = f(t−a) geometrisch?</p></div>
+        <div class="hint-step-container" id="hsteps-4-f"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Completion -->
+<div class="completion-screen" id="completion">
+  <div class="completion-icon">🏆</div>
+  <h2>Herzlichen Glückwunsch, Jan!</h2>
+  <p>Du hast alle Aufgaben der Zentralen Klausur 2025 erfolgreich bearbeitet. Das war echter Prüfungsstoff – du bist sehr gut vorbereitet!</p>
+  <div class="btn-row" style="justify-content:center">
+    <button class="btn btn-primary" onclick="location.reload()">↺ Nochmal üben</button>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════════════════════
+const S = { errors:0, solved:0, points:0, solvedSet: new Set() };
+let mcSelected = {};
+
+// ════════════════════════════════════════════════════════════
+//  HINT DEFINITIONS  (per subtask key → array of steps)
+//  Each step: { btn: 'Button text', html: 'content HTML' }
+// ════════════════════════════════════════════════════════════
+const HINTS = {
+  '1-1': [
+    { btn: '💡 Tipp 1: Was ist die Ableitung?',
+      html: `<p>Die <strong>Ableitung f'(x)</strong> gibt die Steigung des Graphen an jeder Stelle an. Steigung 0 bedeutet: f'(x) = 0.</p><p>Bilde also zuerst f'(x) durch Ableiten von f(x) = x³ − 9x² + 24x − 15.</p>` },
+    { btn: '💡 Tipp 2: Ableitung ausrechnen',
+      html: `<p>Mit der Potenzregel gilt:</p><div class="math-block" id="h11a"></div><p>Jetzt setze f'(x) = 0.</p>` },
+    { btn: '💡 Tipp 3: Gleichung lösen',
+      html: `<p>3x² − 18x + 24 = 0 &nbsp;|&nbsp; ÷ 3<br>→ x² − 6x + 8 = 0</p><p>Verwende die pq-Formel: x = 3 ± √(9 − 8)</p>` },
+    { btn: '💡 Tipp 4: Ergebnis',
+      html: `<p>x₁ = 3 − √1 = <strong>2</strong> &nbsp; und &nbsp; x₂ = 3 + √1 = <strong>4</strong></p><p>Beide Stellen angeben!</p>` }
+  ],
+  '1-2': [
+    { btn: '💡 Tipp 1: Was sagt f\' über f?',
+      html: `<ul style="line-height:2.2;padding-left:1.2rem"><li>f'(x) &gt; 0 → f steigt</li><li>f'(x) &lt; 0 → f fällt</li><li>f'(x) = 0 → Extremstelle von f</li></ul>` },
+    { btn: '💡 Tipp 2: Nullstellen von f\' ablesen',
+      html: `<p>Aus Aufgabe (1): f' hat Nullstellen bei <strong>x = 2</strong> und <strong>x = 4</strong>.</p><p>Bei x = 2 wechselt f' von + nach − → f hat dort ein <strong>lokales Maximum</strong>.<br>Bei x = 4 wechselt f' von − nach + → f hat dort ein <strong>lokales Minimum</strong>.</p>` },
+    { btn: '💡 Tipp 3: Grenzverhalten beachten',
+      html: `<p>Der Leitterm von f ist <strong>+x³</strong> (positiver Koeffizient, ungerade Potenz):<br>→ für x → −∞: f(x) → −∞<br>→ für x → +∞: f(x) → +∞</p><p>Der Graph fällt links, steigt rechts ins Unendliche.</p>` },
+    { btn: '💡 Tipp 4: Graph auswählen',
+      html: `<p>Der korrekte Graph:</p><ul style="line-height:2;padding-left:1.2rem"><li>Steigt zunächst (links)</li><li>Hat bei x = 2 ein lokales Maximum</li><li>Fällt dann bis x = 4 (lokales Minimum)</li><li>Steigt danach wieder ins Positive</li></ul><p>→ Das ist <strong>Graph B</strong>.</p>` }
+  ],
+  '2-1': [
+    { btn: '💡 Tipp 1: Formel für Verbindungsvektor',
+      html: `<p>Verbindungsvektor von A nach C: <strong>AC⃗ = C − A</strong><br>Das heißt: Koordinaten von C minus Koordinaten von A, Komponente für Komponente.</p>` },
+    { btn: '💡 Tipp 2: Koordinaten einsetzen',
+      html: `<p>A = (1|4|−3) und C = (1|−2|5)</p><p>AC⃗ = (1−1 | −2−4 | 5−(−3)) = (<strong>0</strong> | <strong>−6</strong> | <strong>8</strong>)</p>` },
+    { btn: '💡 Tipp 3: Länge berechnen',
+      html: `<p>Länge (Betrag) mit dem räumlichen Pythagoras:<br>|AC⃗| = √(0² + (−6)² + 8²) = √(0 + 36 + 64) = √100 = <strong>10</strong></p>` }
+  ],
+  '2-2': [
+    { btn: '💡 Tipp 1: Formel für den Mittelpunkt',
+      html: `<p>Der Mittelpunkt M einer Strecke von A nach C:<br><strong>M = ½ · (A + C)</strong><br>Das heißt: Koordinaten addieren, dann halbieren.</p>` },
+    { btn: '💡 Tipp 2: Rechnung',
+      html: `<p>M = ½ · (1+1 | 4+(−2) | −3+5) = ½ · (2 | 2 | 2) = <strong>(1 | 1 | 1)</strong></p>` }
+  ],
+  '2-3': [
+    { btn: '💡 Tipp 1: Denkansatz',
+      html: `<p>M ist Mittelpunkt von BD, also: M = ½·(B + D)<br>Umgestellt: <strong>D = 2·M − B</strong></p>` },
+    { btn: '💡 Tipp 2: Vektorweg OD⃗',
+      html: `<p>Alternativ: OD⃗ = OM⃗ + BM⃗<br>Berechne zuerst BM⃗ = M − B = (1−0 | 1−8 | 1−(−3)) = (1 | −7 | 4)</p>` },
+    { btn: '💡 Tipp 3: Ergebnis',
+      html: `<p>OD⃗ = OM⃗ + BM⃗ = (1|1|1) + (1|−7|4) = <strong>(2|−6|5)</strong><br>→ D(2 | −6 | 5)</p>` }
+  ],
+  '3-a1': [
+    { btn: '💡 Tipp 1: Bedingungen für Symmetrie',
+      html: `<p><strong>Achsensymmetrie zur y-Achse</strong>: f(−x) = f(x) für alle x.<br>Das gilt nur, wenn im Term <em>ausschließlich gerade Exponenten</em> (x², x⁴, ...) auftreten.</p>
+             <p><strong>Punktsymmetrie zum Ursprung</strong>: f(−x) = −f(x) für alle x.<br>Das gilt nur, wenn im Term <em>ausschließlich ungerade Exponenten</em> (x, x³, ...) auftreten.</p>` },
+    { btn: '💡 Tipp 2: Was siehst du im Funktionsterm?',
+      html: `<p>f(x) = −0,16·x³ + 0,8·x²</p><p>Der Term enthält <strong>x³</strong> (ungerade Potenz) und <strong>x²</strong> (gerade Potenz).<br>→ Es treten sowohl gerade als auch ungerade Exponenten auf.<br>→ Weder nur gerade noch nur ungerade → keine der beiden Symmetrien liegt vor.</p>` }
+  ],
+  '3-a2': [
+    { btn: '💡 Tipp 1: Leitterm bestimmen',
+      html: `<p>Bei x → +∞ dominiert der <strong>Term mit dem höchsten Exponenten</strong>: hier <strong>−0,16·x³</strong>.</p>` },
+    { btn: '💡 Tipp 2: Vorzeichen und Exponent',
+      html: `<p>Der Leitterm ist <strong>−0,16·x³</strong>: negativer Koeffizient, ungerade Potenz.<br>→ x³ → +∞ für x → +∞<br>→ −0,16·x³ → <strong>−∞</strong></p>` }
+  ],
+  '3-a3': [
+    { btn: '💡 Tipp 1: Notwendige Bedingung',
+      html: `<p>Bilde f'(x) und setze es gleich 0: <strong>f'(x) = 0</strong> liefert die möglichen Extremstellen.</p><p>f(x) = −0,16x³ + 0,8x² → f'(x) = −0,48x² + 1,6x</p>` },
+    { btn: '💡 Tipp 2: Nullstellen von f\'(x)',
+      html: `<p>f'(x) = −0,48x² + 1,6x = x·(−0,48x + 1,6) = 0</p><p>→ x = 0 &nbsp; oder &nbsp; −0,48x + 1,6 = 0 → x = 10/3 ≈ 3,33</p>` },
+    { btn: '💡 Tipp 3: Hinreichende Bedingung (2. Ableitung)',
+      html: `<p>f''(x) = −0,96x + 1,6</p><p>f''(0) = 1,6 &gt; 0 → <strong>Tiefpunkt</strong> bei x = 0<br>f''(10/3) = −1,6 &lt; 0 → <strong>Hochpunkt</strong> bei x = 10/3</p>` },
+    { btn: '💡 Tipp 4: y-Koordinaten berechnen',
+      html: `<p>f(0) = 0 → <strong>T(0 | 0)</strong><br>f(10/3) = −0,16·(10/3)³ + 0,8·(10/3)² = 80/27 ≈ 2,96 → <strong>H(10/3 | 80/27)</strong></p>` }
+  ],
+  '3-a4': [
+    { btn: '💡 Tipp 1: Bedingung für Wendepunkt',
+      html: `<p>Notwendige Bedingung: <strong>f''(xw) = 0</strong><br>f''(x) = −0,96x + 1,6</p>` },
+    { btn: '💡 Tipp 2: Wendestelle berechnen',
+      html: `<p>−0,96·xw + 1,6 = 0 → xw = 1,6/0,96 = <strong>5/3 ≈ 1,67</strong></p>` },
+    { btn: '💡 Tipp 3: y-Koordinate und Absicherung',
+      html: `<p>yw = f(5/3) ≈ <strong>1,48</strong><br>f'''(xw) = −0,96 ≠ 0 → Vorzeichen wechselt ✓<br>→ W(5/3 | 80/54) ≈ W(1,67 | 1,48)</p>` }
+  ],
+  '3-b1': [
+    { btn: '💡 Tipp 1: Was bedeutet m = f\'(1)?',
+      html: `<p>Die Steigung der Geraden t wird als <strong>Ableitung von f an der Stelle 1</strong> berechnet. Das ist typisch für eine <strong>Tangente</strong>.</p>` },
+    { btn: '💡 Tipp 2: Was bedeutet t(1) = f(1)?',
+      html: `<p>Die Gerade t geht durch den Punkt (1 | f(1)) auf dem Graphen von f.<br>→ t ist die <strong>Tangente an f im Punkt (1 | f(1))</strong>.</p>` },
+    { btn: '💡 Tipp 3: Was bedeutet t(x) = f(x)?',
+      html: `<p>Durch Gleichsetzen sucht man die <strong>gemeinsamen Punkte</strong> von f und der Tangente t.<br>→ Aufgabenstellung: „Berechnen Sie die Stellen, an denen der Graph von f und die Tangente an f im Punkt (1|f(1)) gemeinsame Punkte besitzen."</p>` }
+  ],
+  '3-b1ii': [
+    { btn: '💡 Tipp 1: Zeile 1 – Ansatz',
+      html: `<p>t(x) = m·x + b ist der <strong>Ansatz für eine Geradengleichung</strong> (lineare Funktion).</p>` },
+    { btn: '💡 Tipp 2: Zeile 2 – Steigung der Tangente',
+      html: `<p>m = f'(1) = 1,12: Die Steigung der Tangente entspricht der <strong>Steigung des Graphen von f an der Stelle x = 1</strong>.</p>` },
+    { btn: '💡 Tipp 3: Zeile 3 – y-Achsenabschnitt',
+      html: `<p>1,12·1 + b = f(1): Die Tangente muss den Punkt (1|f(1)) enthalten. Daraus folgt b = −0,48.<br>→ t(x) = 1,12x − 0,48</p>` },
+    { btn: '💡 Tipp 4: Zeile 4 – Schnittpunkte',
+      html: `<p>t(x) = f(x): Gleichsetzen der beiden Funktionsterme liefert die <strong>x-Werte der gemeinsamen Punkte</strong> von f und Tangente: x = 1 oder x = 3.</p>` }
+  ],
+  '3-b2': [
+    { btn: '💡 Tipp 1: Zusammenhang Steigung – Winkel',
+      html: `<p>Für eine Gerade mit Steigung m gilt: <strong>tan(α) = m</strong><br>Umgestellt: <strong>α = arctan(m)</strong></p>` },
+    { btn: '💡 Tipp 2: Rechnung',
+      html: `<p>α = arctan(1,12) ≈ <strong>48,24°</strong><br>(Taschenrechner im <em>Gradmodus</em>!)</p>` }
+  ],
+  '4-a': [
+    { btn: '💡 Tipp 1: Uhrzeit als Zahl',
+      html: `<p>14:30 Uhr = 14 Stunden + 30 Minuten = 14 + 0,5 = <strong>t = 14,5</strong></p>` },
+    { btn: '💡 Tipp 2: Einsetzen',
+      html: `<p>Berechne f(14,5) mit dem CAS/Taschenrechner:<br>f(14,5) = −0,0029·14,5⁴ + 0,146·14,5³ − 2,532·14,5² + 17,48·14,5 − 36,1 ≈ <strong>1,91 m</strong></p>` }
+  ],
+  '4-b': [
+    { btn: '💡 Tipp 1: Gleichung aufstellen',
+      html: `<p>Der Weg ist begehbar, wenn f(t) &lt; 2. Finde zuerst die Gleichung <strong>f(t) = 2</strong> im Intervall [7;19].</p>` },
+    { btn: '💡 Tipp 2: Schnittpunkte berechnen',
+      html: `<p>Die Gleichung f(t) = 2 hat im Intervall [7;19] zwei Lösungen: t₁ ≈ 10,56 und t₂ ≈ 14,61.<br>→ Die Insel ist zwischen ca. 10:34 und 14:37 Uhr erreichbar.</p>` },
+    { btn: '💡 Tipp 3: Dauer',
+      html: `<p>Dauer = t₂ − t₁ ≈ 14,61 − 10,56 = <strong>4,05 Stunden</strong> ≈ 4 Stunden</p>` }
+  ],
+  '4-c': [
+    { btn: '💡 Tipp 1: Was ist ein Differenzenquotient?',
+      html: `<p>(f(b) − f(a)) / (b − a) ist die <strong>mittlere Änderungsrate</strong> im Intervall [a; b].<br>Hier: (f(18) − f(13)) / (18 − 13)</p>` },
+    { btn: '💡 Tipp 2: Was bedeuten die Zahlen?',
+      html: `<p>18 und 13 sind <strong>Uhrzeiten</strong> (18:00 und 13:00 Uhr). f(t) ist der Wasserstand in Metern.</p><p>Einheit des Quotienten: m/h → mittlere Änderung pro Stunde.</p>` },
+    { btn: '💡 Tipp 3: Formuliere die Interpretation',
+      html: `<p>→ Im Zeitraum von 13:00 bis 18:00 Uhr nimmt der Wasserstand im <strong>Durchschnitt um 0,81 m pro Stunde zu</strong>.</p>` }
+  ],
+  '4-d': [
+    { btn: '💡 Tipp 1: Kritische Stellen bestimmen',
+      html: `<p>Globale Extrema im Intervall [7;19]: Löse f'(t) = 0 im Intervall [7;19].</p>` },
+    { btn: '💡 Tipp 2: Randpunkte nicht vergessen!',
+      html: `<p>Berechne auch f(7) und f(19) – das globale Extremum kann an einem Randpunkt liegen!</p>` },
+    { btn: '💡 Tipp 3: Vergleich der Funktionswerte',
+      html: `<p>Vergleiche alle Werte an kritischen Stellen und Rändern:<br>→ Kleinster Wert: niedrigster Wasserstand ca. um <strong>12:36 Uhr</strong> mit ca. 1,13 m<br>→ Größter Wert: höchster Wasserstand ca. um <strong>18:48 Uhr</strong> mit ca. 5,47 m<br>→ Differenz: 5,47 − 1,13 ≈ <strong>4,34 m</strong></p>` }
+  ],
+  '4-e': [
+    { btn: '💡 Tipp 1: Zusammenhang Steigen und Ableitung',
+      html: `<p>Die Änderungsrate des Wasserstands ist f'(t). Der Wasserstand steigt am schnellsten, wenn f'(t) <strong>maximal</strong> ist.</p>` },
+    { btn: '💡 Tipp 2: Maximum von f\'(t) finden',
+      html: `<p>Das Maximum von f'(t) liegt an einer Stelle mit f''(t) = 0 (oder am Rand). Bilde also f''(t) und löse f''(t) = 0.</p>` },
+    { btn: '💡 Tipp 3: Kandidaten vergleichen',
+      html: `<p>f''(t) = 0 liefert t₁ ≈ 9,00 und t₂ ≈ 16,18. Vergleiche f'(9,00), f'(16,18), f'(7), f'(19):<br>→ f'(16,18) ≈ 1,07 ist der größte Wert.<br>→ Das Wasser steigt ca. um <strong>16:11 Uhr</strong> am schnellsten.</p>` }
+  ],
+  '4-f': [
+    { btn: '💡 Tipp 1: Was bedeutet g(t) = f(t−a)?',
+      html: `<p>Der Graph von g entsteht durch <strong>horizontale Verschiebung</strong> des Graphen von f um a Einheiten nach rechts (für a &gt; 0).</p>` },
+    { btn: '💡 Tipp 2: Bedingung einsetzen',
+      html: `<p>g(10) = 3,8 → f(10−a) = 3,8<br>Löse die Gleichung f(10−a) = 3,8 mit dem CAS nach a, mit der Einschränkung a ∈ [0;2].</p>` },
+    { btn: '💡 Tipp 3: Ergebnis',
+      html: `<p>Aus f(10−a) = 3,8 folgt a ≈ <strong>1,25</strong> (Probe: f(8,75) ≈ 3,8 ✓)</p>` }
+  ]
+};
+
+// ════════════════════════════════════════════════════════════
+//  ANSWERS
+// ════════════════════════════════════════════════════════════
+const ANSWERS = {
+  '1-1': {
+    check(v) {
+      // Suche nach der Zahl 2 als eigenständige Lösung (nicht als Teil von 24, 12 usw.)
+      // und nach der Zahl 4 als eigenständige Lösung (nicht als Teil von 24, 14 usw.)
+      const has2 = /(?<![0-9])2(?![0-9])/.test(v);
+      const has4 = /(?<![0-9])4(?![0-9])/.test(v);
+      if (has2 && has4) return 'correct';
+      if (has2 || has4) return 'partial';
+      return 'wrong';
+    },
+    points:4,
+    correct: '✓ Perfekt, Jan! Beide Stellen x₁ = 2 und x₂ = 4 sind korrekt.',
+    partial: 'Fast! Du hast eine richtige Stelle – es fehlt aber noch die zweite. Die Lösungen sind x = 2 und x = 4.',
+    wrong: 'Nicht ganz. Bilde zuerst f\'(x) = 3x² − 18x + 24, setze es gleich 0 und löse die quadratische Gleichung. Gesucht sind beide Lösungen.'
+  },
+  '1-2': null, // MC only
+  '2-1': {
+    check(v) {
+      const hasVec = (v.includes('0') && (v.includes('-6') || v.includes('−6')) && v.includes('8'));
+      const hasLen = v.includes('10');
+      if (hasVec && hasLen) return 'correct';
+      if (hasVec || hasLen) return 'partial';
+      return 'wrong';
+    },
+    points:2,
+    correct: '✓ Genau! AC⃗ = (0|−6|8) und |AC⃗| = 10.',
+    partial: 'Gut begonnen! Gib aber sowohl den Vektor als auch seine Länge an.',
+    wrong: 'Rechne: AC⃗ = C − A = (1−1 | −2−4 | 5−(−3)) und dann die Länge mit √(0²+(−6)²+8²).'
+  },
+  '2-2': {
+    check(v) {
+      return (v.includes('1|1|1') || v.includes('1 | 1 | 1') || v.includes('(1,1,1)') || /m\s*\(\s*1/.test(v)) ? 'correct' : 'wrong';
+    },
+    points:1,
+    correct: '✓ Richtig! M(1|1|1).',
+    wrong: 'M = ½·(A+C) = ½·(1+1 | 4+(−2) | −3+5) = ½·(2|2|2) = (1|1|1).'
+  },
+  '2-3': {
+    check(v) {
+      return (v.includes('2|-6|5') || v.includes('2 | -6 | 5') || v.includes('2|−6|5') || v.includes('2 | −6 | 5') || v.toLowerCase().includes('d(2')) ? 'correct' : 'wrong';
+    },
+    points:2,
+    correct: '✓ Super! D(2|−6|5) ist korrekt.',
+    wrong: 'BM⃗ = M − B = (1|1|1) − (0|8|−3) = (1|−7|4); dann OD⃗ = OM⃗ + BM⃗ = (1|1|1)+(1|−7|4) = (2|−6|5).'
+  },
+  '3-a1': {
+    check(v) {
+      return (v.includes('gerade') && v.includes('ungerade')) || (v.includes('gerade') && v.includes('ungerade')) ? 'correct' :
+             (v.includes('gerade') || v.includes('ungerade') || v.includes('exponent') || v.includes('x²') || v.includes('x³')) ? 'partial' : 'wrong';
+    },
+    points:1,
+    correct: '✓ Richtig! Gerade und ungerade Exponenten → keine der beiden Symmetrien.',
+    partial: 'Erwähne explizit sowohl gerade (x²) als auch ungerade (x³) Exponenten im Funktionsterm.',
+    wrong: 'Schau dir die Exponenten im Term an: x³ (ungerade) und x² (gerade). Erkläre, warum das beide Symmetrien ausschließt.'
+  },
+  '3-a2': {
+    check(v) {
+      return v.includes('-∞') || v.includes('−∞') || v.includes('minus unendlich') || v.includes('-inf') ? 'correct' : 'wrong';
+    },
+    points:1,
+    correct: '✓ Korrekt! lim f(x) = −∞, weil der Leitterm −0,16x³ für x→+∞ gegen −∞ geht.',
+    wrong: 'Schau auf den Leitterm: −0,16·x³. Für sehr großes x dominiert dieser Term mit negativem Vorzeichen.'
+  },
+  '3-a3': {
+    check(v) {
+      const hasT = (v.includes('T(0') || v.includes('tiefpunkt') || (v.includes('x = 0') && v.includes('minimum')));
+      const hasH = (v.includes('H(') || v.includes('hochpunkt') || v.includes('10/3') || v.includes('3,3') || v.includes('2,96') || v.includes('80/27'));
+      if (hasT && hasH) return 'correct';
+      if (hasT || hasH) return 'partial';
+      return 'wrong';
+    },
+    points:5,
+    correct: '✓ Sehr gut! Tiefpunkt T(0|0) und Hochpunkt H(10/3|80/27) ≈ H(3,33|2,96) – korrekt!',
+    partial: 'Gut! Du hast einen Extrempunkt, es gibt aber noch einen zweiten. Vergiss nicht beide anzugeben (Tief- und Hochpunkt).',
+    wrong: 'Leite f ab, setze f\'= 0: x(−0,48x+1,6)=0 → x=0 oder x=10/3. Prüfe mit f\'\': T(0|0) und H(10/3|80/27).'
+  },
+  '3-a4': {
+    check(v) {
+      return (v.includes('5/3') || v.includes('1,67') || v.includes('1.67') || v.includes('wendepunkt') || v.includes('w(')) && (v.includes('1,4') || v.includes('5/3') || v.includes('1,67')) ? 'correct' : 'partial';
+    },
+    points:2,
+    correct: '✓ Gut! Der Wendepunkt liegt bei W(5/3 | 80/54) ≈ W(1,67|1,48).',
+    partial: 'Gib sowohl die x- als auch die y-Koordinate des Wendepunkts an. f\'\'(x) = 0 → x = 5/3 ≈ 1,67; dann y = f(5/3).',
+    wrong: 'Bilde f\'\'(x) = −0,96x + 1,6, setze f\'\' = 0: xw = 1,6/0,96 = 5/3 ≈ 1,67; yw = f(5/3) ≈ 1,48.'
+  },
+  '3-b1': {
+    check(v) {
+      return (v.includes('tangente') && (v.includes('1') || v.includes('f(1)'))) || v.includes('gemeinsame punkte') || v.includes('schnittpunkte') ? 'correct' : 'partial';
+    },
+    points:2,
+    correct: '✓ Sehr gut! Die Berechnungen zeigen: Tangente an f im Punkt (1|f(1)), dann Schnittpunkte suchen.',
+    partial: 'Deine Antwort geht in die richtige Richtung. Erwähne explizit die Tangente an f im Punkt (1|f(1)) und das Suchen gemeinsamer Punkte.',
+    wrong: 'Schau: m=f\'(1) ist die Tangentensteigung, t(1)=f(1) legt den Berührpunkt fest. Was wird mit t(x)=f(x) gesucht?'
+  },
+  '3-b1ii': {
+    check(v) {
+      return (v.includes('tangente') || v.includes('steigung')) && (v.includes('gleichsetzen') || v.includes('schnittpunkte') || v.includes('gemeinsam')) ? 'correct' :
+             (v.includes('tangente') || v.includes('steigung') || v.includes('f\'(1)')) ? 'partial' : 'wrong';
+    },
+    points:3,
+    correct: '✓ Gut erklärt! t ist die Tangente an f in (1|f(1)), durch Gleichsetzen werden Schnittpunkte bestimmt.',
+    partial: 'Erkläre alle vier Zeilen: Ansatz → Steigung → y-Achsenabschnitt → Schnittpunkte.',
+    wrong: 'Erkläre Zeile für Zeile: (1) Ansatz Gerade, (2) Steigung = f\'(1), (3) b aus t(1)=f(1), (4) Gleichsetzen für Schnittpunkte.'
+  },
+  '3-b2': {
+    check(v) {
+      return v.includes('48,2') || v.includes('48.2') || v.includes('≈ 48') || v.includes('48°') ? 'correct' : 'wrong';
+    },
+    points:2,
+    correct: '✓ Korrekt! α = arctan(1,12) ≈ 48,24°.',
+    wrong: 'α = arctan(m) = arctan(1,12) ≈ 48,24°. Taschenrechner im Gradmodus nutzen!'
+  },
+  '4-a': {
+    check(v) {
+      return v.includes('1,91') || v.includes('1.91') || v.includes('≈ 1,9') ? 'correct' : 'wrong';
+    },
+    points:2,
+    correct: '✓ Genau! f(14,5) ≈ 1,91 m.',
+    wrong: 'Setze t = 14,5 (= 14 Stunden + 30 Minuten) in den Funktionsterm ein und berechne f(14,5).'
+  },
+  '4-b': {
+    check(v) {
+      return (v.includes('4,05') || v.includes('4 stunden') || v.includes('≈ 4') || v.includes('ca. 4') || (v.includes('10') && v.includes('14'))) ? 'correct' : 'wrong';
+    },
+    points:3,
+    correct: '✓ Richtig! Die Insel ist ca. 4 Stunden erreichbar (von ca. 10:34 bis 14:37 Uhr).',
+    wrong: 'Löse f(t) = 2 im Intervall [7;19]: zwei Lösungen t₁ ≈ 10,56 und t₂ ≈ 14,61 → Dauer ≈ 4,05 h.'
+  },
+  '4-c': {
+    check(v) {
+      return (v.includes('mittler') || v.includes('durchschnitt') || v.includes('pro stunde') || v.includes('änderungsrate')) ? 'correct' : 'partial';
+    },
+    points:2,
+    correct: '✓ Richtig! 0,81 m/h ist die mittlere Änderungsrate des Wasserstands von 13:00 bis 18:00 Uhr.',
+    partial: 'Gute Richtung! Nenne die mittlere Änderungsrate pro Stunde und den Zeitraum (13 bis 18 Uhr = 13:00 bis 18:00 Uhr).',
+    wrong: 'Das ist ein Differenzenquotient: mittlere Änderungsrate des Wasserstands im Zeitraum 13:00–18:00 Uhr.'
+  },
+  '4-d': {
+    check(v) {
+      return (v.includes('12:36') || v.includes('12,6') || v.includes('18:48') || v.includes('18,8') || v.includes('4,34') || (v.includes('niedrig') && v.includes('hoch'))) ? 'correct' : 'wrong';
+    },
+    points:4,
+    correct: '✓ Toll! Niedrigster Stand ≈ 12:36 Uhr (1,13 m), höchster ≈ 18:48 Uhr (5,47 m), Differenz ≈ 4,34 m.',
+    wrong: 'Löse f\'(t) = 0 im Intervall [7;19], vergleiche alle Werte an kritischen Stellen und an den Rändern t=7 und t=19.'
+  },
+  '4-e': {
+    check(v) {
+      return (v.includes('16:11') || v.includes('16,18') || v.includes('16:10') || v.includes('≈ 16') || v.includes('16 uhr')) ? 'correct' : 'wrong';
+    },
+    points:5,
+    correct: '✓ Exzellent! Das Wasser steigt ca. um 16:11 Uhr am schnellsten – Maximum von f\'(t).',
+    wrong: 'Suche das Maximum von f\'(t): f\'\'(t) = 0 → t₁ ≈ 9,00 und t₂ ≈ 16,18. Vergleiche f\'(t) an diesen Stellen und am Rand → f\'(16,18) ≈ 1,07 ist das Maximum.'
+  },
+  '4-f': {
+    check(v) {
+      return v.includes('1,25') || v.includes('a ≈ 1,25') || v.includes('a=1,25') ? 'correct' : 'wrong';
+    },
+    points:2,
+    correct: '✓ Richtig! a ≈ 1,25 ergibt g(10) = f(10 − 1,25) = f(8,75) ≈ 3,8 m.',
+    wrong: 'Setze g(10) = 3,8 an: f(10−a) = 3,8. Löse mit CAS nach a im Intervall [0;2].'
+  }
+};
+
+// ════════════════════════════════════════════════════════════
+//  UNLOCK CHAIN
+// ════════════════════════════════════════════════════════════
+const UNLOCK = {
+  '1-1': ['1-2'], '1-2': [],
+  '2-1': ['2-2'], '2-2': ['2-3'], '2-3': [],
+  '3-a1':['3-a2'],'3-a2':['3-a3'],'3-a3':['3-a4'],'3-a4':['3-b1'],
+  '3-b1':['3-b1ii'],'3-b1ii':['3-b2'],'3-b2':[],
+  '4-a':['4-b'],'4-b':['4-c'],'4-c':['4-d'],'4-d':['4-e'],'4-e':['4-f'],'4-f':[]
+};
+const CARD_IDS = {
+  '1-1':'st-1-1','1-2':'st-1-2',
+  '2-1':'st-2-1','2-2':'st-2-2','2-3':'st-2-3',
+  '3-a1':'st-3-a1','3-a2':'st-3-a2','3-a3':'st-3-a3','3-a4':'st-3-a4',
+  '3-b1':'st-3-b1','3-b1ii':'st-3-b1ii','3-b2':'st-3-b2',
+  '4-a':'st-4-a','4-b':'st-4-b','4-c':'st-4-c','4-d':'st-4-d','4-e':'st-4-e','4-f':'st-4-f'
+};
+const NUM_IDS = {
+  '1-1':'sn-1-1','1-2':'sn-1-2','2-1':'sn-2-1','2-2':'sn-2-2','2-3':'sn-2-3',
+  '3-a1':'sn-3-a1','3-a2':'sn-3-a2','3-a3':'sn-3-a3','3-a4':'sn-3-a4',
+  '3-b1':'sn-3-b1','3-b1ii':'sn-3-b1ii','3-b2':'sn-3-b2',
+  '4-a':'sn-4-a','4-b':'sn-4-b','4-c':'sn-4-c','4-d':'sn-4-d','4-e':'sn-4-e','4-f':'sn-4-f'
+};
+
+// ════════════════════════════════════════════════════════════
+//  CORE FUNCTIONS
+// ════════════════════════════════════════════════════════════
+function fi(key, text) {
+  const el = document.getElementById('ans-'+key);
+  if (!el) return;
+  const s = el.selectionStart, e = el.selectionEnd;
+  el.value = el.value.slice(0,s)+text+el.value.slice(e);
+  el.focus(); el.selectionStart = el.selectionEnd = s+text.length;
+}
+function clearFB(key) {
+  const fb = document.getElementById('fb-'+key);
+  if (fb) { fb.className='answer-feedback'; fb.textContent=''; }
+  const inp = document.getElementById('ans-'+key);
+  if (inp && !S.solvedSet.has(key)) inp.className='answer-input';
+}
+
+function checkAnswer(key) {
+  if (S.solvedSet.has(key)) return;
+  const inp = document.getElementById('ans-'+key);
+  const fb  = document.getElementById('fb-'+key);
+  const raw = (inp ? inp.value : '').toLowerCase().trim();
+  if (!raw) { fb.textContent='Bitte gib eine Antwort ein.'; fb.className='answer-feedback wrong-msg'; return; }
+
+  const def = ANSWERS[key];
+  if (!def) return;
+  const result = def.check(raw);
+
+  if (result === 'correct') {
+    fb.textContent = def.correct; fb.className='answer-feedback correct-msg';
+    if (inp) inp.className='answer-input correct';
+    markSolved(key, def.points);
+    unlockNext(key);
+  } else if (result === 'partial') {
+    S.errors++;
+    document.getElementById('error-count').textContent = S.errors;
+    fb.textContent = def.partial; fb.className='answer-feedback partial-msg';
+    if (inp) inp.className='answer-input wrong';
+  } else {
+    S.errors++;
+    document.getElementById('error-count').textContent = S.errors;
+    fb.textContent = def.wrong; fb.className='answer-feedback wrong-msg';
+    if (inp) inp.className='answer-input wrong';
+  }
+}
+
+function checkMC(key, correctChoice, points) {
+  const sel = mcSelected[key];
+  const fb  = document.getElementById('fb-'+key);
+  if (!sel) { fb.textContent='Bitte wähle eine Option aus.'; fb.className='answer-feedback wrong-msg'; return; }
+  if (S.solvedSet.has(key)) return;
+
+  const opt = document.getElementById('mc-'+key+'-'+sel);
+  const correctEl = document.getElementById('mc-'+key+'-'+correctChoice);
+
+  if (sel === correctChoice) {
+    fb.textContent='✓ Richtig! Graph B zeigt den korrekten Verlauf: f steigt zunächst, hat bei x=2 ein lokales Maximum, bei x=4 ein lokales Minimum, und steigt dann wieder ins Positive.';
+    fb.className='answer-feedback correct-msg';
+    if (opt) opt.classList.add('correct-choice');
+    markSolved(key, points);
+    unlockNext(key);
+  } else {
+    S.errors++;
+    document.getElementById('error-count').textContent = S.errors;
+    fb.textContent='Leider falsch. Überlege: Wo ist f\'> 0 (f steigt), wo f\'< 0 (f fällt)? Nutze die Hinweise!';
+    fb.className='answer-feedback wrong-msg';
+    if (opt) opt.classList.add('wrong-choice');
+    if (correctEl) { setTimeout(()=>{ correctEl.classList.add('correct-choice'); },1200); }
+  }
+}
+
+function selectMC(key, choice) {
+  if (S.solvedSet.has(key)) return;
+  mcSelected[key] = choice;
+  // Clear all selections for this key
+  ['A','B','C','D'].forEach(c => {
+    const el = document.getElementById('mc-'+key+'-'+c);
+    if (el) el.classList.remove('selected','wrong-choice');
+  });
+  const el = document.getElementById('mc-'+key+'-'+choice);
+  if (el) el.classList.add('selected');
+}
+
+function markSolved(key, points) {
+  if (S.solvedSet.has(key)) return;
+  S.solvedSet.add(key);
+  S.solved++; S.points += points;
+  document.getElementById('solved-count').textContent = S.solved;
+  document.getElementById('total-points').textContent = S.points;
+  const card = document.getElementById(CARD_IDS[key]);
+  if (card) card.classList.add('solved');
+  const num = document.getElementById(NUM_IDS[key]);
+  if (num) num.textContent = '✓';
+  if (key === '2-3') { // Show D point
+    ['d-dot','d-label','d-line'].forEach(id => { const e=document.getElementById(id); if(e) e.style.display=''; });
+  }
+}
+
+function unlockNext(key) {
+  (UNLOCK[key]||[]).forEach(nextKey => {
+    const card = document.getElementById(CARD_IDS[nextKey]);
+    if (card) { card.classList.remove('locked'); card.classList.add('fade-in'); }
+  });
+  if (S.solved >= Object.keys(CARD_IDS).length) {
+    setTimeout(()=>{ document.getElementById('completion').classList.add('visible'); }, 800);
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  HINT SYSTEM – step-by-step reveal
+// ════════════════════════════════════════════════════════════
+const hintState = {}; // key -> how many steps shown
+
+function toggleHintSystem(key) {
+  const panel = document.getElementById('hpanel-'+key);
+  if (!panel) return;
+  if (panel.classList.contains('visible')) {
+    panel.classList.remove('visible');
+  } else {
+    panel.classList.add('visible');
+    if (!hintState[key]) buildHintSteps(key);
+  }
+}
+
+function buildHintSteps(key) {
+  const steps = HINTS[key];
+  if (!steps) return;
+  const container = document.getElementById('hsteps-'+key);
+  if (!container) return;
+  hintState[key] = 0;
+  container.innerHTML = '';
+
+  steps.forEach((step, i) => {
+    // Button to reveal this step
+    const btn = document.createElement('button');
+    btn.className = 'hint-step-btn';
+    btn.id = 'hbtn-'+key+'-'+i;
+    btn.innerHTML = `<span class="step-num">${i+1}</span> ${step.btn}`;
+    btn.onclick = () => revealHintStep(key, i);
+    container.appendChild(btn);
+
+    // Content div (hidden)
+    const content = document.createElement('div');
+    content.className = 'hint-step-content';
+    content.id = 'hcontent-'+key+'-'+i;
+    content.innerHTML = step.html;
+    container.appendChild(content);
+  });
+
+  // Render KaTeX inside hints after building
+  setTimeout(()=>{
+    container.querySelectorAll('[id^="h11a"]').forEach(el => {
+      try { katex.render("f'(x) = 3x^2 - 18 \\cdot x + 24", el, {displayMode:true, throwOnError:false}); } catch(e){}
+    });
+  }, 50);
+}
+
+function revealHintStep(key, idx) {
+  const content = document.getElementById('hcontent-'+key+'-'+idx);
+  const btn     = document.getElementById('hbtn-'+key+'-'+idx);
+  if (!content) return;
+  if (content.classList.contains('visible')) {
+    content.classList.remove('visible');
+    if (btn) btn.style.opacity = '1';
+  } else {
+    content.classList.add('visible');
+    if (btn) btn.style.opacity = '0.6';
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  NAVIGATION
+// ════════════════════════════════════════════════════════════
+function showTask(idx) {
+  document.querySelectorAll('.task-view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  const tv = document.getElementById('task-'+idx);
+  if (tv) tv.classList.add('active');
+  const tab = document.getElementById('tab-'+idx);
+  if (tab) tab.classList.add('active');
+}
+
+// ════════════════════════════════════════════════════════════
+//  KATEX RENDERING
+// ════════════════════════════════════════════════════════════
+function rk(id, formula, display) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  try { katex.render(formula, el, {displayMode:!!display, throwOnError:false}); }
+  catch(e) { el.textContent = formula; }
+}
+
+// ════════════════════════════════════════════════════════════
+//  GRAPH DRAWING
+// ════════════════════════════════════════════════════════════
+function drawRefGraph() {
+  const W=500, H=200, ox=250, oy=100, sx=40, sy=8;
+  // Grid
+  let g='';
+  for(let x=-4;x<=6;x++) { const px=ox+x*sx; g+=`<line x1="${px}" y1="10" x2="${px}" y2="190" class="g-grid"/>`; }
+  for(let y=-5;y<=10;y++) { const py=oy-y*sy; if(py>5&&py<195) g+=`<line x1="20" y1="${py}" x2="490" y2="${py}" class="g-grid"/>`; }
+  const gridEl = document.getElementById('ref-grid');
+  if (gridEl) gridEl.innerHTML = g;
+
+  // f'(x) = 3x²-18x+24
+  let pts=[];
+  for(let x=-0.5;x<=6.5;x+=0.04){
+    const y=3*x*x-18*x+24, px=ox+x*sx, py=oy-y*sy;
+    if(py>5&&py<195) pts.push(px+','+py);
+  }
+  const fp=document.getElementById('fp-ref');
+  if(fp&&pts.length>2) fp.setAttribute('d','M '+pts.join(' L '));
+}
+
+// ════════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+  // Math formulas
+  rk('f1-def','f(x)=x^3-9\\cdot x^2+24\\cdot x-15',true);
+  rk('f3-def','f(x)=-0{,}16\\cdot x^3+0{,}8\\cdot x^2,\\quad x\\in\\mathbb{R}',true);
+  rk('f3-lim','\\displaystyle\\lim_{x\\to+\\infty}f(x)',false);
+  rk('f4-def','f(t)=-0{,}0029\\cdot t^4+0{,}146\\cdot t^3-2{,}532\\cdot t^2+17{,}48\\cdot t-36{,}1,\\quad t\\in\\mathbb{R}',true);
+  rk('f4c-form','\\dfrac{f(18)-f(13)}{18-13}\\approx 0{,}81',false);
+  rk('f4f-def','g(t)=f(t-a),\\;t\\in\\mathbb{R},\\;a\\in[0;2]',false);
+  rk('a2-pts','A(1\\,|\\,4\\,|\\,{-}3),\\;B(0\\,|\\,8\\,|\\,{-}3),\\;C(1\\,|\\,{-}2\\,|\\,5)',false);
+  rk('a2-acv','\\overrightarrow{AC}',false);
+  rk('a2-acs','\\overline{AC}',false);
+  rk('a2-bds','\\overline{BD}',false);
+
+  // A3 b1 calculations box
+  const b1 = document.getElementById('b1-calc');
+  if(b1) {
+    try {
+      katex.render(
+        '\\begin{aligned}\\bullet\\;& t(x)=m\\cdot x+b\\\\\\bullet\\;& m=f\'(1)=1{,}12\\\\\\bullet\\;& 1{,}12\\cdot 1+b=f(1)\\Leftrightarrow b=-0{,}48\\end{aligned}\\quad\\Rightarrow\\quad t(x)=1{,}12x-0{,}48',
+        b1, {displayMode:true, throwOnError:false}
+      );
+    } catch(e) { b1.innerHTML='<p>t(x) = m·x + b; &nbsp; m = f\'(1) = 1,12; &nbsp; b = −0,48 &nbsp;⇒&nbsp; t(x) = 1,12x − 0,48</p><p>t(x) = f(x) ⟺ x = 1 ∨ x = 3</p>'; }
+  }
+
+  // Draw reference graph
+  drawRefGraph();
+});
+</script>
+</body>
+</html>
